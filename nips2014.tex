@@ -19,7 +19,7 @@
 \addbibresource{references.bib}
 \usepackage[justification=centering]{caption}
 
-\title{Inferencia Estadística \\ Situación 2: Comparación de Estimadores de \texorpdfstring{$\mu$}{mu}}
+\title{Informe de Análisis de Componentes Principales (ACP) \\ Calidad del Agua del Río Cauca}
 
 \author{
 Jorge Andrés Jaramillo Neme \\
@@ -42,114 +42,121 @@ Universidad Autónoma de Occidente\\
 \begin{document}
 \maketitle
 
-\section{Planteamiento}
-Sea $X$ una población con
-\[
-E(X)=\mu, \qquad \operatorname{Var}(X)=\sigma^2,
-\]
-y sea $x_1,\dots,x_{2n}$ una muestra aleatoria simple de tamaño $2n$.
-Se definen dos estimadores de la media poblacional $\mu$:
-\begin{equation}
-\bar X_1 \;=\; \frac{1}{2n}\sum_{i=1}^{2n} x_i,
-\qquad
-\bar X_2 \;=\; \frac{1}{n}\sum_{i=1}^{n} x_i.
-\end{equation}
+\section{Introducción y Preparación de los Datos}
+A partir de la auditoría inicial de los registros históricos de calidad del agua del Río Cauca, se seleccionaron 7 variables fisicoquímicas activas que resultan críticas para evaluar el estado de la cuenca, excluyendo aquellas con muy baja variabilidad o abundancia de valores atípicos irrelevantes:
+\begin{enumerate}
+    \item Turbiedad (UNT)
+    \item Sólidos Suspendidos Totales (mg SS/L)
+    \item Demanda Bioquímica de Oxígeno (mg O2/L)
+    \item Demanda Química de Oxígeno (mg O2/L)
+    \item Oxígeno Disuelto (mg O2/L)
+    \item Conductividad Eléctrica (mS/cm)
+    \item Fósforo Total (mg P/L)
+\end{enumerate}
 
-A continuación se calculan, para cada estimador: \emph{esperanza}, \emph{varianza}, \emph{sesgo} y \emph{error cuadrático medio (ECM)}.
+Dado que las variables presentaban asimetrías positivas severas, algo bastante típico en datos de concentración ambiental, se aplicó una transformación logarítmica ($\log_{1p}$) para estabilizar las varianzas y reducir el peso de valores atípicos unidimensionales extremos.
 
-\section{Resultados previos}
-Usaremos que para constantes $a,b$ y variable aleatoria $Y$:
-\[
-E[aY+b]=a\,E(Y)+b,\qquad \operatorname{Var}(aY)=a^2\operatorname{Var}(Y),
-\]
-y para $Y_i$ \emph{independientes},
-\[
-\operatorname{Var}\!\Big(\sum_i Y_i\Big)=\sum_i \operatorname{Var}(Y_i).
-\]
-Además, por definición,
-\[
-\operatorname{ECM}(\hat\theta)=E\!\big[(\hat\theta-\theta)^2\big]
-= \operatorname{Var}(\hat\theta) + \big(\operatorname{Sesgo}(\hat\theta)\big)^2.
-\]
+\section{Estadísticas descriptivas, matriz de correlación y gráficos}
+El análisis previo de la distribución de las variables y su correlación revela una estructura latente importante en los datos.
 
-\section{Estimador \texorpdfstring{$\bar X_1$}{X1}}
-\subsection{Esperanza}
-\begin{align*}
-E(\bar X_1)
-&= E\!\left[\frac{1}{2n}\sum_{i=1}^{2n} x_i\right]
-= \frac{1}{2n}\sum_{i=1}^{2n} E(x_i)
-= \frac{1}{2n}\,(2n)\mu
-= \mu.
-\end{align*}
+\subsection{Distribución de las variables}
+Las distribuciones originales se muestran altamente sesgadas, validando la decisión metodológica de transformar las variables antes de proceder con el método multivariado.
 
-\subsection{Varianza}
-\begin{align*}
-\operatorname{Var}(\bar X_1)
-&= \left(\frac{1}{2n}\right)^2
-\operatorname{Var}\!\left(\sum_{i=1}^{2n} x_i\right)
-= \left(\frac{1}{2n}\right)^2 \sum_{i=1}^{2n} \operatorname{Var}(x_i) \\
-&= \left(\frac{1}{2n}\right)^2 (2n)\sigma^2
-= \frac{\sigma^2}{2n}.
-\end{align*}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Tarea_1/graficos/1a_dist_grupo_a.png}
+    \caption{Distribuciones Físico-Químicas (Grupo A)}
+\end{figure}
 
-\subsection{Sesgo}
-\[
-\operatorname{Sesgo}(\bar X_1)=E(\bar X_1)-\mu=\mu-\mu=0.
-\]
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Tarea_1/graficos/1b_dist_grupo_b.png}
+    \caption{Distribuciones Físico-Químicas (Grupo B)}
+\end{figure}
 
-\subsection{ECM}
-Como el sesgo es cero,
-\[
-\operatorname{ECM}(\bar X_1)=\operatorname{Var}(\bar X_1)=\frac{\sigma^2}{2n}.
-\]
+\subsection{Matriz de Correlación}
+El correlograma reafirma importantes relaciones bivariadas, siendo la correlación más notoria la relación directamente proporcional entre los Sólidos Suspendidos Totales y la Turbiedad ($0.80$). También destaca la relación natural que existe entre la DBO y la DQO.
 
-\section{Estimador \texorpdfstring{$\bar X_2$}{X2}}
-\subsection{Esperanza}
-\begin{align*}
-E(\bar X_2)
-&= E\!\left[\frac{1}{n}\sum_{i=1}^{n} x_i\right]
-= \frac{1}{n}\sum_{i=1}^{n} E(x_i)
-= \frac{1}{n}\,(n)\mu
-= \mu.
-\end{align*}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{Tarea_1/graficos/2_correlacion.png}
+    \caption{Matriz de Correlación}
+\end{figure}
 
-\subsection{Varianza}
-\begin{align*}
-\operatorname{Var}(\bar X_2)
-&= \left(\frac{1}{n}\right)^2
-\operatorname{Var}\!\left(\sum_{i=1}^{n} x_i\right)
-= \left(\frac{1}{n}\right)^2 \sum_{i=1}^{n} \operatorname{Var}(x_i) \\
-&= \left(\frac{1}{n}\right)^2 (n)\sigma^2
-= \frac{\sigma^2}{n}.
-\end{align*}
+\subsection{Sedimentación de la Varianza (Scree Plot)}
+Al extraer las componentes, se observó que la primera dimensión (PC1) explica un $31.6\%$ de la varianza total de los datos, mientras que la segunda dimensión (PC2) retiene un $23.9\%$. En conjunto, el primer plano factorial resume cerca del $55.5\%$ de la información original. 
 
-\subsection{Sesgo}
-\[
-\operatorname{Sesgo}(\bar X_2)=E(\bar X_2)-\mu=\mu-\mu=0.
-\]
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{Tarea_1/graficos/3_screeplot.png}
+    \caption{Scree Plot}
+\end{figure}
 
-\subsection{ECM}
-\[
-\operatorname{ECM}(\bar X_2)=\operatorname{Var}(\bar X_2)=\frac{\sigma^2}{n}.
-\]
+Criterio de retención: Según el criterio de Kaiser de autovalores mayores a 1, se deberían retener los primeros 3 componentes. Sin embargo, para fines de visualización y porque encapsulan el grueso de la información de interés ambiental, nos concentraremos en la interpretación del primer plano factorial.
 
-\section{Comparación y conclusión}
-Ambos estimadores son \textbf{insesgados}:
-\[
-E(\bar X_1)=E(\bar X_2)=\mu \quad\Rightarrow\quad \text{Sesgo}=0.
-\]
-Sin embargo,
-\[
-\operatorname{Var}(\bar X_1)=\frac{\sigma^2}{2n}
-\;<\;
-\operatorname{Var}(\bar X_2)=\frac{\sigma^2}{n},
-\]
-por lo que
-\[
-\operatorname{ECM}(\bar X_1)=\frac{\sigma^2}{2n}
-\;<\;
-\operatorname{ECM}(\bar X_2)=\frac{\sigma^2}{n}.
-\]
-Entonces, bajo el criterio de \emph{menor ECM} (o mínima varianza entre insesgados), \textbf{$\bar X_1$ es el mejor estimador de $\mu$} porque utiliza más información (las $2n$ observaciones) y, en consecuencia, es más preciso.
+\section{Nube de individuos}
+La proyección de las observaciones, que son muestras espacio-temporales etiquetadas cruzando el año y la estación, sobre el plano factorial permite identificar patrones de agrupación y eventos específicos en la línea de tiempo.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Tarea_1/graficos/4_nube_individuos.png}
+    \caption{Nube de Individuos}
+\end{figure}
+
+Interpretación: El eje horizontal (Dim1) es el de mayor dispersión de individuos. Observaciones posicionadas a la derecha del gráfico corresponden a eventos de muestreo que puntuaron alto en las variables asociadas a la carga contaminante. Individuos excelentemente representados con un coseno cuadrado superior a $0.70$ incluyen la estación Antes Interceptor Sur en 1990 y Paso del Comercio en 1994.
+
+\section{Círculo de correlaciones}
+La proyección de las variables ayuda a interpretar semánticamente el significado de cada dimensión generada por el ACP.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{Tarea_1/graficos/5_circulo_correlacion.png}
+    \caption{Círculo de Correlaciones}
+\end{figure}
+
+Interpretación de los ejes: La dimensión 1 (PC1) está conformada principalmente por los Sólidos Suspendidos, la Turbiedad, la Demanda Bioquímica y Química de Oxígeno, y el Fósforo Total. Todos estos vectores apuntan hacia la parte positiva del eje X. Esto significa que la dimensión 1 puede interpretarse como un eje o gradiente de contaminación orgánica y particulada.
+
+La dimensión 2 (PC2) opone fuertemente el Oxígeno Disuelto, ubicado en el polo positivo superior, con la Conductividad Eléctrica en el polo negativo inferior. Este eje representa un gradiente fisicoquímico de mineralización versus oxigenación.
+
+\section{Biplot e Identificación de Atípicos Factoriales}
+El Biplot sobrepone la proyección de los individuos y de las variables, facilitando una interpretación dual de la afinidad de ciertas estaciones con variables específicas.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Tarea_1/graficos/6_biplot.png}
+    \caption{Biplot}
+\end{figure}
+
+Datos atípicos: Geométricamente, en un ACP normado los atípicos multivariados son los puntos que se localizan más lejanos al centro de gravedad u origen de la proyección. Los eventos más anómalos multivariadamente en nuestra historia son Juanchito en 1993, Mediacanoa en 2010 y Paso del Comercio también en 2010.
+
+Estos atípicos no representan un error metodológico que deba ser borrado del conjunto de datos. Por el contrario, en un contexto de calidad de agua, representan pulsos críticos históricos de alta contaminación como inundaciones, vertimientos graves o avalanchas. Llama la atención cómo el año 2010 concentra la mayor cantidad de perfiles atípicos de deterioro de la cuenca, coincidiendo posiblemente con fenómenos climáticos extremos en el territorio.
+
+\section{Síntesis de Resultados: Contribuciones y Cosenos Cuadrados}
+El promedio de aporte esperado por variable si todas contribuyeran igualitariamente a la conformación de los ejes sería del $14.29\%$.
+
+En la primera dimensión, las variables dominantes en la construcción del eje son los Sólidos Suspendidos que contribuyen con un $32.3\%$ y la Turbiedad con un $23.4\%$. Su calidad de representación en este eje es muy buena. 
+
+En la segunda dimensión, el eje se sostiene casi por completo de la variabilidad aportada por el Oxígeno Disuelto con un $41.0\%$ y la Conductividad Eléctrica con un $33.0\%$.
+
+Estas métricas consolidan que el análisis capturó un desacople estadístico entre la contaminación por material orgánico y sólido de la primera dimensión, y los balances disueltos de sales frente a gases vitales de la segunda dimensión.
+
+\section{¿Es posible construir un índice?}
+Diagnóstico metodológico: Sí es posible construir un índice parcial fundamentado en el componente principal 1 dada la verificación de la propiedad matemática conocida como factor tamaño. Al revisar las coordenadas de las variables frente a la dimensión 1, notamos que 6 de las 7 variables tienen cargas o proyecciones positivas. El único parámetro excluido es el Oxígeno Disuelto, que tiene un impacto insignificante sobre este eje al contribuir apenas un $0.5\%$. Esto implica que las variables asociadas al deterioro del agua están empujando unidireccionalmente. Por tanto, el primer componente constituye de forma natural un índice aditivo ponderado.
+
+Construcción e Interpretación: Se extrajo la coordenada de la primera dimensión y se normalizó mediante un método min-max a una escala de 0 a 100. Bajo este esquema, los puntajes cercanos a 100 advierten sobre un nivel máximo histórico de carga orgánica y particulada en ese evento espacial y temporal específico.
+
+Al agrupar el promedio histórico de este índice por estaciones de monitoreo, obtenemos un ranking de presiones para el cauce, encabezado por las estaciones de Anacaro, Puente La Virginia y La Victoria. El nivel de impacto particulado desciende a medida que se revisan las estaciones finales de la lista agregada.
+
+Nota Académica: Este índice es riguroso estadísticamente para reflejar carga particulada y orgánica, pero no debe catalogarse a la ligera como un índice de calidad global del agua, puesto que no captura los fenómenos de anoxia y mineralización que estructuraron la ortogonalidad matemática de la segunda dimensión.
+
+\section{Informe final (Hallazgos importantes)}
+Síntesis de la investigación:
+
+\begin{itemize}
+    \item \textbf{Eficiencia en la extracción.} La técnica de ACP logró destilar exitosamente la dimensionalidad de las mediciones del Río Cauca. Es un excelente método para monitoreos hídricos masivos, pues en dos únicas dimensiones se sintetizó un $55.5\%$ del comportamiento global histórico.
+    \item \textbf{Dicotomía de la contaminación.} El modelo probabilístico nos indica que los problemas de la cuenca no son un único evento abstracto. Hay al menos dos pulsos independientes y ortogonales: una contaminación turbia y de materia orgánica aportada probablemente por arrastres pluviales y residuos directos, y una dinámica de sales e hipoxia más relacionada con vertimientos estables o la termodinámica del cuerpo de agua estancado frente a aguas rápidas.
+    \item \textbf{El efecto de un año crítico.} Al evaluar los atípicos, el método de ACP expuso a través del concepto de distancia al centroide una alerta empírica. El año 2010 fue un atípico severo sistemático para la calidad del agua en múltiples estaciones a la vez, lo cual denota factores hidrológicos externos a gran escala.
+    \item \textbf{Viabilidad de un índice.} Finalmente, este taller permitió corroborar académicamente cómo, mediante las propiedades del factor tamaño en un ACP, se pueden originar ponderaciones objetivas sin el sesgo del analista para crear índices de presión ecológica o de desempeño hidrológico.
+\end{itemize}
 
 \end{document}

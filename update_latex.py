@@ -1,0 +1,150 @@
+with open('c:/Users/jandr/OneDrive/Documentos/Estadistica-UAO-Maestria/Tarea-Estadistica-Multivariado-1/nips2014.tex', 'r', encoding='utf-8') as f:
+    lines = f.readlines()
+
+new_lines = lines[:21]
+
+latex_content = r"""
+\title{Informe de Análisis de Componentes Principales (ACP) \\ Calidad del Agua del Río Cauca}
+
+\author{
+Jorge Andrés Jaramillo Neme \\
+Universidad Autónoma de Occidente\\
+\texttt{jorge\_and.jaramillo@uao.edu.co} \\
+\and
+  \textbf{Jhonatan Andrés Tapia} \\
+  Universidad Autónoma de Occidente \\
+  \texttt{correo2@uao.edu.co} \\
+  \and
+  \textbf{Luis Fernando Meza} \\
+  Universidad Autónoma de Occidente \\
+  \texttt{correo3@uao.edu.co} \\
+}
+
+\nipsfinalcopy % camera-ready
+
+\begin{document}
+\maketitle
+
+\section{Introducción y Preparación de los Datos}
+A partir de la auditoría inicial de los registros históricos de calidad del agua del Río Cauca, se seleccionaron 7 variables fisicoquímicas activas que resultan críticas para evaluar el estado de la cuenca, excluyendo aquellas con muy baja variabilidad o abundancia de valores atípicos irrelevantes:
+\begin{enumerate}
+    \item Turbiedad (UNT)
+    \item Sólidos Suspendidos Totales (mg SS/L)
+    \item Demanda Bioquímica de Oxígeno (mg O2/L)
+    \item Demanda Química de Oxígeno (mg O2/L)
+    \item Oxígeno Disuelto (mg O2/L)
+    \item Conductividad Eléctrica (mS/cm)
+    \item Fósforo Total (mg P/L)
+\end{enumerate}
+
+Dado que las variables presentaban asimetrías positivas severas, algo bastante típico en datos de concentración ambiental, se aplicó una transformación logarítmica ($\log_{1p}$) para estabilizar las varianzas y reducir el peso de valores atípicos unidimensionales extremos.
+
+\section{Estadísticas descriptivas, matriz de correlación y gráficos}
+El análisis previo de la distribución de las variables y su correlación revela una estructura latente importante en los datos.
+
+\subsection{Distribución de las variables}
+Las distribuciones originales se muestran altamente sesgadas, validando la decisión metodológica de transformar las variables antes de proceder con el método multivariado.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Tarea_1/graficos/1a_dist_grupo_a.png}
+    \caption{Distribuciones Físico-Químicas (Grupo A)}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Tarea_1/graficos/1b_dist_grupo_b.png}
+    \caption{Distribuciones Físico-Químicas (Grupo B)}
+\end{figure}
+
+\subsection{Matriz de Correlación}
+El correlograma reafirma importantes relaciones bivariadas, siendo la correlación más notoria la relación directamente proporcional entre los Sólidos Suspendidos Totales y la Turbiedad ($0.80$). También destaca la relación natural que existe entre la DBO y la DQO.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{Tarea_1/graficos/2_correlacion.png}
+    \caption{Matriz de Correlación}
+\end{figure}
+
+\subsection{Sedimentación de la Varianza (Scree Plot)}
+Al extraer las componentes, se observó que la primera dimensión (PC1) explica un $31.6\%$ de la varianza total de los datos, mientras que la segunda dimensión (PC2) retiene un $23.9\%$. En conjunto, el primer plano factorial resume cerca del $55.5\%$ de la información original. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{Tarea_1/graficos/3_screeplot.png}
+    \caption{Scree Plot}
+\end{figure}
+
+Criterio de retención: Según el criterio de Kaiser de autovalores mayores a 1, se deberían retener los primeros 3 componentes. Sin embargo, para fines de visualización y porque encapsulan el grueso de la información de interés ambiental, nos concentraremos en la interpretación del primer plano factorial.
+
+\section{Nube de individuos}
+La proyección de las observaciones, que son muestras espacio-temporales etiquetadas cruzando el año y la estación, sobre el plano factorial permite identificar patrones de agrupación y eventos específicos en la línea de tiempo.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Tarea_1/graficos/4_nube_individuos.png}
+    \caption{Nube de Individuos}
+\end{figure}
+
+Interpretación: El eje horizontal (Dim1) es el de mayor dispersión de individuos. Observaciones posicionadas a la derecha del gráfico corresponden a eventos de muestreo que puntuaron alto en las variables asociadas a la carga contaminante. Individuos excelentemente representados con un coseno cuadrado superior a $0.70$ incluyen la estación Antes Interceptor Sur en 1990 y Paso del Comercio en 1994.
+
+\section{Círculo de correlaciones}
+La proyección de las variables ayuda a interpretar semánticamente el significado de cada dimensión generada por el ACP.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{Tarea_1/graficos/5_circulo_correlacion.png}
+    \caption{Círculo de Correlaciones}
+\end{figure}
+
+Interpretación de los ejes: La dimensión 1 (PC1) está conformada principalmente por los Sólidos Suspendidos, la Turbiedad, la Demanda Bioquímica y Química de Oxígeno, y el Fósforo Total. Todos estos vectores apuntan hacia la parte positiva del eje X. Esto significa que la dimensión 1 puede interpretarse como un eje o gradiente de contaminación orgánica y particulada.
+
+La dimensión 2 (PC2) opone fuertemente el Oxígeno Disuelto, ubicado en el polo positivo superior, con la Conductividad Eléctrica en el polo negativo inferior. Este eje representa un gradiente fisicoquímico de mineralización versus oxigenación.
+
+\section{Biplot e Identificación de Atípicos Factoriales}
+El Biplot sobrepone la proyección de los individuos y de las variables, facilitando una interpretación dual de la afinidad de ciertas estaciones con variables específicas.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Tarea_1/graficos/6_biplot.png}
+    \caption{Biplot}
+\end{figure}
+
+Datos atípicos: Geométricamente, en un ACP normado los atípicos multivariados son los puntos que se localizan más lejanos al centro de gravedad u origen de la proyección. Los eventos más anómalos multivariadamente en nuestra historia son Juanchito en 1993, Mediacanoa en 2010 y Paso del Comercio también en 2010.
+
+Estos atípicos no representan un error metodológico que deba ser borrado del conjunto de datos. Por el contrario, en un contexto de calidad de agua, representan pulsos críticos históricos de alta contaminación como inundaciones, vertimientos graves o avalanchas. Llama la atención cómo el año 2010 concentra la mayor cantidad de perfiles atípicos de deterioro de la cuenca, coincidiendo posiblemente con fenómenos climáticos extremos en el territorio.
+
+\section{Síntesis de Resultados: Contribuciones y Cosenos Cuadrados}
+El promedio de aporte esperado por variable si todas contribuyeran igualitariamente a la conformación de los ejes sería del $14.29\%$.
+
+En la primera dimensión, las variables dominantes en la construcción del eje son los Sólidos Suspendidos que contribuyen con un $32.3\%$ y la Turbiedad con un $23.4\%$. Su calidad de representación en este eje es muy buena. 
+
+En la segunda dimensión, el eje se sostiene casi por completo de la variabilidad aportada por el Oxígeno Disuelto con un $41.0\%$ y la Conductividad Eléctrica con un $33.0\%$.
+
+Estas métricas consolidan que el análisis capturó un desacople estadístico entre la contaminación por material orgánico y sólido de la primera dimensión, y los balances disueltos de sales frente a gases vitales de la segunda dimensión.
+
+\section{¿Es posible construir un índice?}
+Diagnóstico metodológico: Sí es posible construir un índice parcial fundamentado en el componente principal 1 dada la verificación de la propiedad matemática conocida como factor tamaño. Al revisar las coordenadas de las variables frente a la dimensión 1, notamos que 6 de las 7 variables tienen cargas o proyecciones positivas. El único parámetro excluido es el Oxígeno Disuelto, que tiene un impacto insignificante sobre este eje al contribuir apenas un $0.5\%$. Esto implica que las variables asociadas al deterioro del agua están empujando unidireccionalmente. Por tanto, el primer componente constituye de forma natural un índice aditivo ponderado.
+
+Construcción e Interpretación: Se extrajo la coordenada de la primera dimensión y se normalizó mediante un método min-max a una escala de 0 a 100. Bajo este esquema, los puntajes cercanos a 100 advierten sobre un nivel máximo histórico de carga orgánica y particulada en ese evento espacial y temporal específico.
+
+Al agrupar el promedio histórico de este índice por estaciones de monitoreo, obtenemos un ranking de presiones para el cauce, encabezado por las estaciones de Anacaro, Puente La Virginia y La Victoria. El nivel de impacto particulado desciende a medida que se revisan las estaciones finales de la lista agregada.
+
+Nota Académica: Este índice es riguroso estadísticamente para reflejar carga particulada y orgánica, pero no debe catalogarse a la ligera como un índice de calidad global del agua, puesto que no captura los fenómenos de anoxia y mineralización que estructuraron la ortogonalidad matemática de la segunda dimensión.
+
+\section{Informe final (Hallazgos importantes)}
+Síntesis de la investigación:
+
+\begin{itemize}
+    \item \textbf{Eficiencia en la extracción.} La técnica de ACP logró destilar exitosamente la dimensionalidad de las mediciones del Río Cauca. Es un excelente método para monitoreos hídricos masivos, pues en dos únicas dimensiones se sintetizó un $55.5\%$ del comportamiento global histórico.
+    \item \textbf{Dicotomía de la contaminación.} El modelo probabilístico nos indica que los problemas de la cuenca no son un único evento abstracto. Hay al menos dos pulsos independientes y ortogonales: una contaminación turbia y de materia orgánica aportada probablemente por arrastres pluviales y residuos directos, y una dinámica de sales e hipoxia más relacionada con vertimientos estables o la termodinámica del cuerpo de agua estancado frente a aguas rápidas.
+    \item \textbf{El efecto de un año crítico.} Al evaluar los atípicos, el método de ACP expuso a través del concepto de distancia al centroide una alerta empírica. El año 2010 fue un atípico severo sistemático para la calidad del agua en múltiples estaciones a la vez, lo cual denota factores hidrológicos externos a gran escala.
+    \item \textbf{Viabilidad de un índice.} Finalmente, este taller permitió corroborar académicamente cómo, mediante las propiedades del factor tamaño en un ACP, se pueden originar ponderaciones objetivas sin el sesgo del analista para crear índices de presión ecológica o de desempeño hidrológico.
+\end{itemize}
+
+\end{document}
+"""
+new_lines.append(latex_content)
+
+with open('c:/Users/jandr/OneDrive/Documentos/Estadistica-UAO-Maestria/Tarea-Estadistica-Multivariado-1/nips2014.tex', 'w', encoding='utf-8') as f:
+    f.writelines(new_lines)
