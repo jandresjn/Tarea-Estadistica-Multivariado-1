@@ -1,0 +1,155 @@
+\documentclass{article} % For LaTeX2e
+
+\usepackage{nips14submit_e,times}
+\usepackage[spanish]{babel}
+\usepackage{biblatex}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{listingsutf8}
+\usepackage[utf8]{inputenc}
+\usepackage{float}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{placeins}
+\usepackage{amsmath}
+\usepackage{subfigure}
+\usepackage{blindtext}
+\usepackage{enumerate}
+\usepackage{mwe}
+\addbibresource{references.bib}
+\usepackage[justification=centering]{caption}
+
+\title{Inferencia Estadística \\ Situación 2: Comparación de Estimadores de \texorpdfstring{$\mu$}{mu}}
+
+\author{
+Jorge Andrés Jaramillo Neme \\
+Universidad Autónoma de Occidente\\
+\texttt{jorge\_and\.jaramillo@uao.edu.co} \\
+\and
+  \textbf{Jhonatan Andrés Tapia} \\
+  Universidad Autónoma de Occidente \\
+  \texttt{correo2@uao.edu.co} \\
+  \and
+  \textbf{Luis Fernando Meza} \\
+  Universidad Autónoma de Occidente \\
+  \texttt{correo3@uao.edu.co} \\
+}
+
+
+
+\nipsfinalcopy % camera-ready
+
+\begin{document}
+\maketitle
+
+\section{Planteamiento}
+Sea $X$ una población con
+\[
+E(X)=\mu, \qquad \operatorname{Var}(X)=\sigma^2,
+\]
+y sea $x_1,\dots,x_{2n}$ una muestra aleatoria simple de tamaño $2n$.
+Se definen dos estimadores de la media poblacional $\mu$:
+\begin{equation}
+\bar X_1 \;=\; \frac{1}{2n}\sum_{i=1}^{2n} x_i,
+\qquad
+\bar X_2 \;=\; \frac{1}{n}\sum_{i=1}^{n} x_i.
+\end{equation}
+
+A continuación se calculan, para cada estimador: \emph{esperanza}, \emph{varianza}, \emph{sesgo} y \emph{error cuadrático medio (ECM)}.
+
+\section{Resultados previos}
+Usaremos que para constantes $a,b$ y variable aleatoria $Y$:
+\[
+E[aY+b]=a\,E(Y)+b,\qquad \operatorname{Var}(aY)=a^2\operatorname{Var}(Y),
+\]
+y para $Y_i$ \emph{independientes},
+\[
+\operatorname{Var}\!\Big(\sum_i Y_i\Big)=\sum_i \operatorname{Var}(Y_i).
+\]
+Además, por definición,
+\[
+\operatorname{ECM}(\hat\theta)=E\!\big[(\hat\theta-\theta)^2\big]
+= \operatorname{Var}(\hat\theta) + \big(\operatorname{Sesgo}(\hat\theta)\big)^2.
+\]
+
+\section{Estimador \texorpdfstring{$\bar X_1$}{X1}}
+\subsection{Esperanza}
+\begin{align*}
+E(\bar X_1)
+&= E\!\left[\frac{1}{2n}\sum_{i=1}^{2n} x_i\right]
+= \frac{1}{2n}\sum_{i=1}^{2n} E(x_i)
+= \frac{1}{2n}\,(2n)\mu
+= \mu.
+\end{align*}
+
+\subsection{Varianza}
+\begin{align*}
+\operatorname{Var}(\bar X_1)
+&= \left(\frac{1}{2n}\right)^2
+\operatorname{Var}\!\left(\sum_{i=1}^{2n} x_i\right)
+= \left(\frac{1}{2n}\right)^2 \sum_{i=1}^{2n} \operatorname{Var}(x_i) \\
+&= \left(\frac{1}{2n}\right)^2 (2n)\sigma^2
+= \frac{\sigma^2}{2n}.
+\end{align*}
+
+\subsection{Sesgo}
+\[
+\operatorname{Sesgo}(\bar X_1)=E(\bar X_1)-\mu=\mu-\mu=0.
+\]
+
+\subsection{ECM}
+Como el sesgo es cero,
+\[
+\operatorname{ECM}(\bar X_1)=\operatorname{Var}(\bar X_1)=\frac{\sigma^2}{2n}.
+\]
+
+\section{Estimador \texorpdfstring{$\bar X_2$}{X2}}
+\subsection{Esperanza}
+\begin{align*}
+E(\bar X_2)
+&= E\!\left[\frac{1}{n}\sum_{i=1}^{n} x_i\right]
+= \frac{1}{n}\sum_{i=1}^{n} E(x_i)
+= \frac{1}{n}\,(n)\mu
+= \mu.
+\end{align*}
+
+\subsection{Varianza}
+\begin{align*}
+\operatorname{Var}(\bar X_2)
+&= \left(\frac{1}{n}\right)^2
+\operatorname{Var}\!\left(\sum_{i=1}^{n} x_i\right)
+= \left(\frac{1}{n}\right)^2 \sum_{i=1}^{n} \operatorname{Var}(x_i) \\
+&= \left(\frac{1}{n}\right)^2 (n)\sigma^2
+= \frac{\sigma^2}{n}.
+\end{align*}
+
+\subsection{Sesgo}
+\[
+\operatorname{Sesgo}(\bar X_2)=E(\bar X_2)-\mu=\mu-\mu=0.
+\]
+
+\subsection{ECM}
+\[
+\operatorname{ECM}(\bar X_2)=\operatorname{Var}(\bar X_2)=\frac{\sigma^2}{n}.
+\]
+
+\section{Comparación y conclusión}
+Ambos estimadores son \textbf{insesgados}:
+\[
+E(\bar X_1)=E(\bar X_2)=\mu \quad\Rightarrow\quad \text{Sesgo}=0.
+\]
+Sin embargo,
+\[
+\operatorname{Var}(\bar X_1)=\frac{\sigma^2}{2n}
+\;<\;
+\operatorname{Var}(\bar X_2)=\frac{\sigma^2}{n},
+\]
+por lo que
+\[
+\operatorname{ECM}(\bar X_1)=\frac{\sigma^2}{2n}
+\;<\;
+\operatorname{ECM}(\bar X_2)=\frac{\sigma^2}{n}.
+\]
+Entonces, bajo el criterio de \emph{menor ECM} (o mínima varianza entre insesgados), \textbf{$\bar X_1$ es el mejor estimador de $\mu$} porque utiliza más información (las $2n$ observaciones) y, en consecuencia, es más preciso.
+
+\end{document}
